@@ -38,8 +38,13 @@ RUN pip3 install --no-cache-dir \
 COPY wyoming_stt_onnxasr /app
 
 # Копируем rootfs
-WORKDIR /
 COPY rootfs /
+
+# Проверяем наличие файла run
+RUN if [ ! -f /etc/services.d/onnxasr/run ]; then \
+        echo "Error: /etc/services.d/onnxasr/run not found"; \
+        exit 1; \
+    fi
 
 # Делаем скрипт запуска исполняемым
 RUN chmod +x /etc/services.d/onnxasr/run

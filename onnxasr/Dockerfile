@@ -1,4 +1,3 @@
-# Используем базовый образ с предустановленным Python 3.12 для amd64
 FROM ghcr.io/home-assistant/amd64-base-python:3.12
 
 # Устанавливаем оболочку для корректной обработки ошибок
@@ -11,6 +10,7 @@ ENV PIP_BREAK_SYSTEM_PACKAGES=1
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         netcat-traditional \
+        git \
     && rm -rf /var/lib/apt/lists/*
 
 # Обновляем инструменты сборки Python
@@ -18,10 +18,20 @@ RUN pip3 install --no-cache-dir -U \
     setuptools \
     wheel
 
-# Устанавливаем зависимости проекта
-RUN pip3 install --no-cache-dir \
-    onnx-asr[cpu,hub] \
-    wyoming
+# Клонируем репозиторий и устанавливаем проект
+RUN git clone https://github.com/mitrokun/wyoming-stt-onnxasr.git /app \
+    && cd /app \
+    && git checkout ed6dffc0e4013a11c2365cc38373d4cdca92bd30 \
+    || { echo "Failed to clone or checkout repository"; exit 1; } \
+    && if [ -f requirements.txt ]; then \
+        pip3 install --no-cache-dir -r requirements.txt \
+        || { echo "Failed to install requirements"; exit 1; }; \
+    else \
+        echo "requirements.txt not found, skipping"; \
+    fi \
+    && pip3 install --no-cache-dir -e . \
+    || { echo "Failed to install wyoming_stt_onnxasr"; exit 1; } \
+    && rm -rf /app
 
 # Копируем rootfs
 WORKDIR /

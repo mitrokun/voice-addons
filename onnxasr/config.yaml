@@ -2,11 +2,11 @@
 name: ONNX ASR
 version: "0.1.0"
 slug: onnxasr
-description: Wyoming STT server for Home Assistant based on OnnxAsr
-url: "https://github.com/mitrokun/voice-addons" # Убедитесь, что здесь URL вашего нового репозитория
+description: Wyoming Speech-to-Text server for Home Assistant, supporting Russian-focused ONNX and Vosk models
+url: "https://github.com/mitrokun/voice-addons"
 arch:
   - amd64
-init: true
+init: false
 map:
   - share:rw
 ports:
@@ -17,9 +17,11 @@ options:
   model: "vosk-model-small-ru"
   quantization: "int8"
   device: "cpu"
+  port: 10305
   debug: false
 schema:
   model: list(gigaam-v2-ctc|gigaam-v2-rnnt|nemo-fastconformer-ru-ctc|nemo-fastconformer-ru-rnnt|nemo-parakeet-ctc-0.6b|nemo-parakeet-rnnt-0.6b|nemo-parakeet-tdt-0.6b-v2|whisper-base|alphacep/vosk-model-ru|alphacep/vosk-model-small-ru|onnx-community/whisper-tiny|onnx-community/whisper-base|onnx-community/whisper-small|onnx-community/whisper-large-v3-turbo)
   quantization: list(int8|fp16|fp32)
   device: list(cpu|cuda)
+  port: int
   debug: bool

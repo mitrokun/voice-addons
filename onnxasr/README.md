@@ -1,8 +1,6 @@
 # Home Assistant Add-on: ONNX ASR
 
-![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
-![Supports armv7 Architecture][armv7-shield]
 
 Локальный сервер распознавания речи для Home Assistant, использующий [ONNX ASR](https://github.com/istupakov/onnx-asr) и протокол Wyoming.
 
@@ -24,6 +22,4 @@
 
 Если у вас возникли проблемы, пожалуйста, [создайте issue](https://github.com/mitrokun/hassio-addons/issues) в этом репозитории.
 
-[aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
-[armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg

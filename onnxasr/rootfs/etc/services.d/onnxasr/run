@@ -1,18 +1,25 @@
-#!/usr/bin/with-contenv bash
+#!/bin/bash
 
+# Определяем, где будут храниться модели
 CACHE_DIR="/share/onnxasr"
 export HOME="${CACHE_DIR}"
 mkdir -p "${CACHE_DIR}"
 
+# Добавляем /app в PYTHONPATH
 export PYTHONPATH=/app:$PYTHONPATH
 
-bashio::log.info "Starting ONNX ASR server..."
+# Используем простой echo для логирования, так как bashio может быть недоступен
+echo "[INFO] Starting ONNX ASR server..."
 
-MODEL=$(bashio::config 'model')
-QUANTIZATION=$(bashio::config 'quantization')
-DEVICE=$(bashio::config 'device')
-PORT=$(bashio::config 'port')
+# Читаем опции из конфигурации с помощью jq
+# jq надежно работает в любой shell-среде
+MODEL=$(jq -r '.model' /data/options.json)
+QUANTIZATION=$(jq -r '.quantization' /data/options.json)
+DEVICE=$(jq -r '.device' /data/options.json)
+PORT=$(jq -r '.port' /data/options.json)
+DEBUG=$(jq -r '.debug' /data/options.json)
 
+# Собираем аргументы для команды
 ARGS=(
     --model "${MODEL}"
     --uri "tcp://0.0.0.0:${PORT}"
@@ -20,16 +27,12 @@ ARGS=(
     --device "${DEVICE}"
 )
 
-if bashio::config.true 'debug'; then
+# Добавляем флаг --debug, если включен
+if [ "${DEBUG}" = "true" ]; then
     ARGS+=(--debug)
-    bashio::log.info "Running ONNX ASR in DEBUG mode."
-
-    bashio::log.info "Model: ${MODEL}, Port: ${PORT}, Quantization: ${QUANTIZATION}, Device: ${DEVICE}"
-else
-    bashio::log.info "Running ONNX ASR."
-    bashio::log.info "Model: ${MODEL}, Port: ${PORT}"
 fi
 
-exec python3 -m wyoming_onnxasr "${ARGS[@]}"
+echo "[INFO] Running with model: ${MODEL}, port: ${PORT}, quantization: ${QUANTIZATION}, device: ${DEVICE}, debug: ${DEBUG}"
 
-bashio::log.fatal "Failed to execute python server!"
+# Запускаем сервер
+exec python3 -m wyoming_onnxasr "${ARGS[@]}"

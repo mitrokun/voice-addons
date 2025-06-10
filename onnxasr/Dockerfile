@@ -1,3 +1,4 @@
+# Используем базовый образ для amd64
 FROM ghcr.io/home-assistant/amd64-base-debian:bookworm
 
 # Устанавливаем оболочку для корректной обработки ошибок
@@ -13,7 +14,14 @@ RUN apt-get update \
         python3 \
         python3-pip \
         python3-dev \
+        jq \
+        curl \
     && rm -rf /var/lib/apt/lists/*
+
+# Устанавливаем s6-overlay
+ARG S6_OVERLAY_VERSION=3.1.6.2
+RUN curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" | tar -C / -Jxpf - \
+    && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz" | tar -C / -Jxpf -
 
 # Обновляем инструменты сборки Python
 RUN pip3 install --no-cache-dir -U \
@@ -42,3 +50,6 @@ HEALTHCHECK --start-period=10m \
         | nc -w 1 localhost 10305 \
         | grep -q "onnx-asr" \
         || exit 1
+
+# Точка входа для s6-overlay
+ENTRYPOINT ["/init"]

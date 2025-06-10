@@ -1,0 +1,27 @@
+---
+name: ONNX ASR
+version: "0.1.0"
+slug: onnxasr
+description: Wyoming STT server for Home Assistant based on OnnxAsr
+url: "https://github.com/mitrokun/wyoming_stt_onnxasr"
+arch:
+  - amd64
+  - aarch64
+  - armv7
+init: true
+map:
+  - share:rw
+ports:
+  "10305/tcp": null
+discovery:
+  - wyoming
+options:
+  model: "vosk-model-small-ru"
+  quantization: "int8"
+  device: "cpu"
+  debug: false
+schema:
+  model: list(gigaam-v2-ctc|gigaam-v2-rnnt|nemo-fastconformer-ru-ctc|nemo-fastconformer-ru-rnnt|nemo-parakeet-ctc-0.6b|nemo-parakeet-rnnt-0.6b|nemo-parakeet-tdt-0.6b-v2|whisper-base|alphacep/vosk-model-ru|alphacep/vosk-model-small-ru|onnx-community/whisper-tiny|onnx-community/whisper-base|onnx-community/whisper-small|onnx-community/whisper-large-v3-turbo)
+  quantization: list(int8|fp16|fp32)
+  device: list(cpu|cuda)
+  debug: bool

@@ -1,0 +1,25 @@
+# /onnxasr/translations/en.yaml
+configuration:
+  model:
+    name: Model
+    description: >-
+      Select the speech recognition model. Models differ in size, speed, and
+      accuracy. For Russian, it's recommended to start with 'gigaam-v2-ctc'.
+  quantization:
+    name: Quantization
+    description: >-
+      Select the model quantization. This affects model size and performance.
+      'int8' is the fastest and smallest, ideal for single-board computers like
+      Raspberry Pi. 'fp32' is the full, most accurate model but requires more resources.
+  device:
+    name: Device
+    description: >-
+      The device to use for inference. 'cpu' is the standard option. 'cuda' uses
+      an NVIDIA GPU for acceleration (requires a compatible GPU and drivers on
+      the host system).
+  debug:
+    name: Debug logging
+    description: >-
+      Enable detailed logging in the add-on's log. Useful for troubleshooting.
+network:
+  10305/tcp: ONNX ASR Wyoming Protocol

@@ -26,6 +26,9 @@ COPY rootfs /
 
 RUN chmod +x /etc/services.d/onnxasr/run
 
+RUN echo "--- Hex dump of the run script: ---" && \
+    head -c 16 /etc/services.d/onnxasr/run | xxd
+
 HEALTHCHECK --start-period=10m \
     CMD echo '{ "type": "describe" }' \
         | nc -w 1 localhost 10305 \

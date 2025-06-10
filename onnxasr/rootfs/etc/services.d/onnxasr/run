@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv bashio
+#!/usr/bin/with-contenv bash
 
 # Определяем где будут храниться модели
 CACHE_DIR="/share/onnxasr"

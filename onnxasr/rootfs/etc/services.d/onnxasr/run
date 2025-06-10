@@ -1,32 +1,25 @@
 #!/bin/bash
 
-# Определяем, где будут храниться модели
 CACHE_DIR="/share/onnxasr"
 export HOME="${CACHE_DIR}"
 mkdir -p "${CACHE_DIR}"
 
-# Добавляем /app в PYTHONPATH
 export PYTHONPATH=/app:$PYTHONPATH
 
-# Используем простой echo для логирования, так как bashio может быть недоступен
 echo "[INFO] Starting ONNX ASR server..."
 
-# Читаем опции из конфигурации с помощью jq
-# jq надежно работает в любой shell-среде
 MODEL=$(jq -r '.model' /data/options.json)
 INT8_QUANTIZATION=$(jq -r '.int8_quantization' /data/options.json)
 DEVICE=$(jq -r '.device' /data/options.json)
 PORT=$(jq -r '.port' /data/options.json)
 DEBUG=$(jq -r '.debug' /data/options.json)
 
-# Собираем аргументы для команды
 ARGS=(
     --model "${MODEL}"
     --uri "tcp://0.0.0.0:${PORT}"
     --device "${DEVICE}"
 )
 
-# Добавляем флаг --quantization int8, если опция включена
 if [ "${INT8_QUANTIZATION}" = "true" ]; then
     ARGS+=(--quantization int8)
     echo "[INFO] Using int8 quantization."
@@ -34,12 +27,10 @@ else
     echo "[INFO] Running without specific quantization (using model default)."
 fi
 
-# Добавляем флаг --debug, если включен
 if [ "${DEBUG}" = "true" ]; then
     ARGS+=(--debug)
 fi
 
 echo "[INFO] Running with model: ${MODEL}, port: ${PORT}, device: ${DEVICE}, debug: ${DEBUG}"
 
-# Запускаем сервер
 exec python3 -m wyoming_onnxasr "${ARGS[@]}"

@@ -1,6 +1,0 @@
-# /onnxasr/build.yaml
-
-build_from:
-  amd64: "ghcr.io/home-assistant/amd64-base-python:3.12"
-  aarch64: "ghcr.io/home-assistant/aarch64-base-python:3.12"
-  armv7: "ghcr.io/home-assistant/armv7-base-python:3.12"

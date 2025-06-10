@@ -2,6 +2,7 @@
 import argparse
 import asyncio
 import logging
+import sys
 from functools import partial
 
 import onnx_asr
@@ -62,13 +63,21 @@ async def main() -> None:
         help="Print version and exit",
     )
     args = parser.parse_args()
+    
+    root_logger = logging.getLogger()
+
+    if root_logger.hasHandlers():
+        root_logger.handlers.clear()
 
     logging.basicConfig(
-        level=logging.DEBUG if args.debug else logging.INFO, format=args.log_format
+        level=logging.DEBUG if args.debug else logging.INFO,
+        format=args.log_format,
+        stream=sys.stdout,
     )
+
     _LOGGER.debug(args)
 
-    onnx_asr_version = "0.6.1"  # Фиксированная версия из pip show onnx-asr
+    onnx_asr_version = "0.6.1"
 
     wyoming_info = Info(
         asr=[

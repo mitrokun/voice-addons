@@ -1,9 +1,12 @@
 #!/usr/bin/with-contenv bashio
 
-# Определяем, где будут храниться модели
+# Определяем где будут храниться модели
 CACHE_DIR="/share/onnxasr"
 export HOME="${CACHE_DIR}"
 mkdir -p "${CACHE_DIR}"
+
+# Добавляем /app в PYTHONPATH
+export PYTHONPATH=/app:$PYTHONPATH
 
 bashio::log.info "Starting ONNX ASR server..."
 
@@ -27,7 +30,7 @@ if [ "${DEBUG}" = "true" ]; then
     ARGS+=(--debug)
 fi
 
-bashio::log.info "Running ONNX ASR with model: ${MODEL}, port: ${PORT}, quantization: ${QUANTIZATION}, device: ${DEVICE}, debug: ${DEBUG}"
+bashio::log.info "Running ONNX ASR с model: ${MODEL}, port: ${PORT}, quantization: ${QUANTIZATION}, device: ${DEVICE}, debug: ${DEBUG}"
 
 # Запускаем сервер
 exec python3 -m wyoming_onnxasr "${ARGS[@]}" || {

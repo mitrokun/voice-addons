@@ -8,6 +8,8 @@ RUN \
         git \
         python3 \
         python3-pip \
+        build-essential \
+        python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/mitrokun/wyoming_stt_onnxasr.git /app \

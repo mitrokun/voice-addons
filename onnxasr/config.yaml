@@ -3,11 +3,9 @@ name: ONNX ASR
 version: "0.1.0"
 slug: onnxasr
 description: Wyoming STT server for Home Assistant based on OnnxAsr
-url: "https://github.com/mitrokun/wyoming_stt_onnxasr"
+url: "https://github.com/mitrokun/ha-mitrokun-addons" # Убедитесь, что здесь URL вашего нового репозитория
 arch:
   - amd64
-  - aarch64
-  - armv7
 init: true
 map:
   - share:rw

@@ -36,8 +36,8 @@ COPY rootfs /
 RUN chmod +x /etc/services.d/onnxasr/run
 
 # Проверка работоспособности
-HEALTHCHECK --start-period=10m \
-    CMD echo '{ "type": "describe" }' \
-        | nc -w 1 localhost 10305 \
-        | grep -q "onnx-asr" \
-        || exit 1
+#HEALTHCHECK --start-period=10m \
+#    CMD echo '{ "type": "describe" }' \
+#        | nc -w 1 localhost 10305 \
+#        | grep -q "onnx-asr" \
+#        || exit 1

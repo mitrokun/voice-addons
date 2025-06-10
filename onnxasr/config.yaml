@@ -14,7 +14,7 @@ ports:
 discovery:
   - wyoming
 options:
-  model: "vosk-model-small-ru"
+  model: "alphacep/vosk-model-small-ru"
   quantization: "int8"
   device: "cpu"
   port: 10305

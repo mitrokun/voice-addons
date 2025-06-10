@@ -1,9 +1,6 @@
 #!/usr/bin/with-contenv bashio
 
 # Определяем, где будут храниться модели
-# OnnxAsr по умолчанию ищет модели в ~/.cache/onnx_asr
-# Мы переопределим переменную окружения HOME, чтобы он искал их в /share/onnxasr
-# Это гарантирует, что модели сохранятся между перезапусками.
 CACHE_DIR="/share/onnxasr"
 export HOME="${CACHE_DIR}"
 mkdir -p "${CACHE_DIR}"
@@ -14,24 +11,26 @@ bashio::log.info "Starting ONNX ASR server..."
 MODEL=$(bashio::config 'model')
 QUANTIZATION=$(bashio::config 'quantization')
 DEVICE=$(bashio::config 'device')
-DEBUG=$(bashio::config 'debug')
+PORT=$(bashio::config 'port')
+DEBUG=$(bashio::config.true 'debug')
 
-# Собираем команду для запуска
-COMMAND="python3 -m wyoming_onnxasr \
-    --model \"${MODEL}\" \
-    --uri 'tcp://0.0.0.0:10305' \
-    --device \"${DEVICE}\""
+# Собираем аргументы для команды
+ARGS=(
+    --model "${MODEL}"
+    --uri "tcp://0.0.0.0:${PORT}"
+    --quantization "${QUANTIZATION}"
+    --device "${DEVICE}"
+)
 
-# Добавляем опциональные аргументы
-if bashio::config.has_value 'quantization'; then
-    COMMAND="${COMMAND} --quantization \"${QUANTIZATION}\""
+# Добавляем флаг --debug, если включен
+if [ "${DEBUG}" = "true" ]; then
+    ARGS+=(--debug)
 fi
 
-if ${DEBUG}; then
-    COMMAND="${COMMAND} --debug"
-fi
+bashio::log.info "Running ONNX ASR with model: ${MODEL}, port: ${PORT}, quantization: ${QUANTIZATION}, device: ${DEVICE}, debug: ${DEBUG}"
 
-bashio::log.info "Running command: ${COMMAND}"
-
-# Запускаем команду
-exec ${COMMAND}
+# Запускаем сервер
+exec python3 -m wyoming_onnxasr "${ARGS[@]}" || {
+    bashio::log.error "Failed to start ONNX ASR server"
+    exit 1
+}

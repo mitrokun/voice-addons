@@ -1,6 +1,6 @@
 ---
 name: ONNX ASR
-version: "0.1.0"
+version: "0.1.1"
 slug: onnxasr
 description: Wyoming Speech-to-Text server for Home Assistant, supporting Russian-focused ONNX and Vosk models
 url: "https://github.com/mitrokun/voice-addons"

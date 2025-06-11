@@ -1,6 +1,6 @@
 # Home Assistant Add-on: ONNX ASR
 
-Локальный сервер распознавания речи (STT) для Home Assistant на базе [onnx-asr](https://github.com/istupakov/onnx-asr).
+Локальный сервер распознавания речи (STT) для Home Assistant на базе [ONNX ASR](https://github.com/istupakov/onnx-asr).
 
 ## Установка
 

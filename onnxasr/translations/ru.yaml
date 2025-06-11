@@ -1,4 +1,3 @@
-# /onnxasr/translations/ru.yaml
 configuration:
   model:
     name: Модель

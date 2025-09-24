@@ -2,7 +2,6 @@
 import argparse
 import asyncio
 import logging
-import sys
 from functools import partial
 
 import onnx_asr
@@ -23,6 +22,7 @@ SUPPORTED_MODELS = [
     "nemo-parakeet-ctc-0.6b",
     "nemo-parakeet-rnnt-0.6b",
     "nemo-parakeet-tdt-0.6b-v2",
+    "nemo-parakeet-tdt-0.6b-v3",
     "whisper-base",
     "alphacep/vosk-model-ru",
     "alphacep/vosk-model-small-ru",
@@ -31,6 +31,41 @@ SUPPORTED_MODELS = [
     "onnx-community/whisper-small",
     "onnx-community/whisper-large-v3-turbo"
 ]
+
+DEFAULT_LANGUAGES = ["ru", "en"]
+
+WHISPER_LANGUAGES = [
+    "bg", "ca", "cs", "da", "de", "el", "en", "es", "et", "fi", "fr", "he",
+    "hi", "hr", "hu", "id", "is", "it", "ja", "ko", "lt", "lv", "my", "nl",
+    "no", "pl", "pt", "ro", "ru", "sk", "sl", "sv", "sw", "ta", "th", "tr",
+    "uk", "ur", "vi", "zh" 
+]
+
+MODEL_LANGUAGES = {
+    # Multilanguage
+    "nemo-parakeet-tdt-0.6b-v3": [
+        "bg", "hr", "cs", "da", "nl", "en", "et", "fi", "fr", "de", "el", "hu",
+        "it", "lv", "lt", "mt", "pl", "pt", "ro", "sk", "sl", "es", "sv", "ru", "uk"
+    ],
+    # EN
+    "nemo-parakeet-ctc-0.6b": ["en"],
+    "nemo-parakeet-rnnt-0.6b": ["en"],
+    "nemo-parakeet-tdt-0.6b-v2": ["en"],
+    # RU
+    "gigaam-v2-ctc": ["ru"],
+    "gigaam-v2-rnnt": ["ru"],
+    "alphacep/vosk-model-ru": ["ru"],
+    "alphacep/vosk-model-small-ru": ["ru"],
+    "nemo-fastconformer-ru-ctc": ["ru"],
+    "nemo-fastconformer-ru-rnnt": ["ru"],
+    # Whisper
+    "whisper-base": WHISPER_LANGUAGES,
+    "onnx-community/whisper-tiny": WHISPER_LANGUAGES,
+    "onnx-community/whisper-base": WHISPER_LANGUAGES,
+    "onnx-community/whisper-small": WHISPER_LANGUAGES,
+    "onnx-community/whisper-large-v3-turbo": WHISPER_LANGUAGES,
+}
+
 
 async def main() -> None:
     """Main entry point."""
@@ -63,21 +98,15 @@ async def main() -> None:
         help="Print version and exit",
     )
     args = parser.parse_args()
-    
-    root_logger = logging.getLogger()
-
-    if root_logger.hasHandlers():
-        root_logger.handlers.clear()
 
     logging.basicConfig(
-        level=logging.DEBUG if args.debug else logging.INFO,
-        format=args.log_format,
-        stream=sys.stdout,
+        level=logging.DEBUG if args.debug else logging.INFO, format=args.log_format
     )
-
     _LOGGER.debug(args)
 
-    onnx_asr_version = "0.6.1"
+    onnx_asr_version = "0.7.0"
+
+    supported_languages = MODEL_LANGUAGES.get(args.model, DEFAULT_LANGUAGES)
 
     wyoming_info = Info(
         asr=[
@@ -99,7 +128,7 @@ async def main() -> None:
                             url=f"https://huggingface.co/istupakov/{args.model}",
                         ),
                         installed=True,
-                        languages=["ru", "en"],
+                        languages=supported_languages,
                         version=args.quantization or "fp32",
                     )
                 ],
@@ -136,8 +165,10 @@ async def main() -> None:
         )
     )
 
+
 def run() -> None:
     asyncio.run(main())
+
 
 if __name__ == "__main__":
     try:

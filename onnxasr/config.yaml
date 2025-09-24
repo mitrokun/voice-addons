@@ -20,8 +20,9 @@ options:
   port: 10305
   debug: false
 schema:
-  model: list(gigaam-v2-ctc|gigaam-v2-rnnt|nemo-fastconformer-ru-ctc|nemo-fastconformer-ru-rnnt|nemo-parakeet-ctc-0.6b|nemo-parakeet-rnnt-0.6b|nemo-parakeet-tdt-0.6b-v2|whisper-base|alphacep/vosk-model-ru|alphacep/vosk-model-small-ru|onnx-community/whisper-tiny|onnx-community/whisper-base|onnx-community/whisper-small|onnx-community/whisper-large-v3-turbo)
+  model: list(gigaam-v2-ctc|gigaam-v2-rnnt|nemo-fastconformer-ru-ctc|nemo-fastconformer-ru-rnnt|nemo-parakeet-ctc-0.6b|nemo-parakeet-rnnt-0.6b|nemo-parakeet-tdt-0.6b-v2|nemo-parakeet-tdt-0.6b-v3|whisper-base|alphacep/vosk-model-ru|alphacep/vosk-model-small-ru|onnx-community/whisper-tiny|onnx-community/whisper-base|onnx-community/whisper-small|onnx-community/whisper-large-v3-turbo)
   int8_quantization: bool
   device: list(cpu|cuda)
   port: int
   debug: bool
+

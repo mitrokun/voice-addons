@@ -1,6 +1,6 @@
 ---
 name: ONNX ASR
-version: "0.1.101"
+version: "0.1.102"
 slug: onnxasr
 description: Wyoming Speech-to-Text server for Home Assistant, supporting Russian-focused ONNX models
 url: "https://github.com/mitrokun/voice-addons"
@@ -20,11 +20,12 @@ options:
   port: 10305
   debug: false
 schema:
-  model: list(gigaam-v2-ctc|gigaam-v2-rnnt|gigaam-v3-ctc|gigaam-v3-rnnt|gigaam-v3-e2e-ctc|gigaam-v3-e2e-rnnt|nemo-fastconformer-ru-ctc|nemo-fastconformer-ru-rnnt|nemo-parakeet-ctc-0.6b|nemo-parakeet-rnnt-0.6b|nemo-parakeet-tdt-0.6b-v2|nemo-parakeet-tdt-0.6b-v3|whisper-base|alphacep/vosk-model-ru|alphacep/vosk-model-small-ru)
+  model: list(gigaam-v2-ctc|gigaam-v2-rnnt|gigaam-v3-ctc|gigaam-v3-rnnt|gigaam-v3-e2e-ctc|gigaam-v3-e2e-rnnt|nemo-fastconformer-ru-ctc|nemo-fastconformer-ru-rnnt|nemo-parakeet-ctc-0.6b|nemo-parakeet-rnnt-0.6b|nemo-parakeet-tdt-0.6b-v2|nemo-parakeet-tdt-0.6b-v3|nemo-canary-1b-v2|alphacep/vosk-model-ru|alphacep/vosk-model-small-ru)
   int8_quantization: bool
   device: list(cpu|cuda)
   port: int
   debug: bool
+
 
 
 

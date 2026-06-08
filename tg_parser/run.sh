@@ -1,3 +1,3 @@
 #!/bin/sh
-echo "Запуск Telegram Parser Add-on..."
-python3 -u /app/tele.py
+echo "Start Telegram Parser Add-on..."
+exec python3 -u /app/tele.py

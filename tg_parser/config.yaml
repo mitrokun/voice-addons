@@ -1,0 +1,26 @@
+name: "Telegram Channel Parser"
+description: "Парсер сообщений Telegram (Telethon + Quart)"
+version: "1.0.0"
+slug: "tg_parser"
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+startup: services
+map:
+  - share:rw
+ports:
+  5000/tcp: 5000
+ports_description:
+  5000/tcp: "API Port"
+options:
+  api_id: 0
+  api_hash: ""
+  phone_number: "+79991234567"
+schema:
+  api_id: "int"
+  api_hash: "str"
+  phone_number: "str"

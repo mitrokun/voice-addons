@@ -1,5 +1,5 @@
-name: "Telegram Channel Parser"
-description: "Парсер сообщений Telegram (Telethon + Quart)"
+name: "TG Parser"
+description: "Парсер сообщений Telegram"
 version: "0.1.0"
 slug: "tg_parser"
 init: false

@@ -165,7 +165,9 @@ async def main() -> None:
         args.model == "gigaam-multilingual-large-ctc"
         and args.quantization is None
     ):
-        model_path = "/share/onnxasr/models/gigaam-multilingual-large-ctc"
+        model_path = prepare_fp32_model_dir(
+            Path("/share/onnxasr/models/gigaam-multilingual-large-ctc")
+        )
 
     model = onnx_asr.load_model(
         args.model,

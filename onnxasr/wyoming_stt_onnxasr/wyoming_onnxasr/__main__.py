@@ -3,6 +3,7 @@ import argparse
 import asyncio
 import logging
 from functools import partial
+from pathlib import Path
 
 import onnx_asr
 from wyoming.info import AsrModel, AsrProgram, Attribution, Info
@@ -10,6 +11,7 @@ from wyoming.server import AsyncServer
 
 from . import __version__
 from .handler import OnnxAsrEventHandler
+from .model_files import prepare_fp32_model_dir
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -57,6 +59,12 @@ MULTILINGUAL_LANGUAGES = [
 MODELS_SPECIAL = {
     "nemo-parakeet-tdt-0.6b-v3": MULTILINGUAL_LANGUAGES,
     "nemo-canary-1b-v2": MULTILINGUAL_LANGUAGES,
+    "gigaam-multilingual-ctc": [
+        "ru", "en", "kk", "ky", "uz"
+    ],
+    "gigaam-multilingual-large-ctc": [
+        "ru", "en", "kk", "ky", "uz"
+    ],
 }
 
 DEFAULT_LANGUAGES = ["ru", "en"]
@@ -153,10 +161,21 @@ async def main() -> None:
         providers.append("CUDAExecutionProvider")
     providers.append("CPUExecutionProvider")
 
+    model_path = None
+
+    if (
+        args.model == "gigaam-multilingual-large-ctc"
+        and args.quantization is None
+    ):
+        model_path = prepare_fp32_model_dir(
+            Path("/share/onnxasr/models/gigaam-multilingual-large-ctc")
+        )
+
     model = onnx_asr.load_model(
         args.model,
+        path=model_path,
         quantization=args.quantization,
-        providers=providers
+        providers=providers,
     )
     _LOGGER.info(f"Model '{args.model}' loaded successfully.")
 

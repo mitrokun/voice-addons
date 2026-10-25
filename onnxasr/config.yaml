@@ -1,5 +1,5 @@
 ---
-name: ONNX ASR (Stepyon Test)
+name: ONNX ASR
 version: "0.1.103"
 slug: onnxasr
 description: Wyoming Speech-to-Text server for Home Assistant, supporting Russian-focused ONNX models

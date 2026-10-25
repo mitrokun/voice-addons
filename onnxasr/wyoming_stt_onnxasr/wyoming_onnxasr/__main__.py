@@ -3,6 +3,7 @@ import argparse
 import asyncio
 import logging
 from functools import partial
+from pathlib import Path
 
 import onnx_asr
 from wyoming.info import AsrModel, AsrProgram, Attribution, Info
@@ -10,6 +11,7 @@ from wyoming.server import AsyncServer
 
 from . import __version__
 from .handler import OnnxAsrEventHandler
+from .model_files import prepare_fp32_model_dir
 
 _LOGGER = logging.getLogger(__name__)
 

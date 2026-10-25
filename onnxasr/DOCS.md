@@ -16,7 +16,11 @@
 При первом запуске с выбранной моделью аддон автоматически скачает ее из интернета. Модели сохраняются в папку `share` вашего Home Assistant. 
 Особый интерес представляют модели GigaAM, как конкурент Whisper Large (см. сравнение на сайте onnx-asr), но с хорошим быстродействием даже на средних cpu.
 
-**Путь хранения моделей:** `/share/onnxasr/.cache/`
+**Путь хранения моделей:** Обычно `/share/onnxasr/.cache/`.
+
+Модели `gigaam-multilingual-ctc` и `gigaam-multilingual-large-ctc` поддерживают русский (`ru`), английский (`en`), казахский (`kk`), кыргызский (`ky`) и узбекский (`uz`) языки. Эти языки передаются в Home Assistant через Wyoming.
+
+Для **FP32** варианта `gigaam-multilingual-large-ctc` файлы скачиваются в `/share/onnxasr/models/gigaam-multilingual-large-ctc/`. Это необходимо, чтобы `.onnx` и внешний файл весов `.onnx.data` находились в одной директории: Hugging Face cache symlinks могут приводить к ошибке ONNX Runtime `External data path escapes model directory`. При неполной загрузке отсутствующие файлы скачиваются повторно при следующем запуске. Для **INT8** сохраняется стандартная загрузка и кеширование.
 
 ## Конфигурация
 

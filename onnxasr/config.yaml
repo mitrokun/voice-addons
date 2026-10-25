@@ -1,9 +1,9 @@
 ---
-name: ONNX ASR
+name: ONNX ASR (Stepyon Test)
 version: "0.1.102"
 slug: onnxasr
 description: Wyoming Speech-to-Text server for Home Assistant, supporting Russian-focused ONNX models
-url: "https://github.com/mitrokun/voice-addons"
+url: "https://github.com/Stepyon/voice-addons"
 arch:
   - amd64
 init: false
